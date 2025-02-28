@@ -1,46 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Validation Form</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <form id="myForm">
-      <input type="number" id="age" placeholder="Enter your age" required>
-      <input type="text" id="name" placeholder="Enter your name" required>
-      <button type="submit" id="btn">Submit</button> <!-- 🔥 Change input to button -->
+      <input type="number" id="age" placeholder="Enter your age" required />
+      <input type="text" id="name" placeholder="Enter your name" required />
+      <button type="submit" id="btn">Submit</button> <!-- 🔥 Fix: Changed input to button -->
     </form>
 
-    <script type="text/javascript">
-      let age = document.querySelector("#age");
-      let name = document.querySelector("#name");
-      let form = document.querySelector("#myForm");
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let form = document.querySelector("#myForm");
+        let ageInput = document.querySelector("#age");
+        let nameInput = document.querySelector("#name");
+        let submitBtn = document.querySelector("#btn");
 
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
 
-        // 🔥 Fix input validation
-        if (age.value.trim() === "" || name.value.trim() === "") {
-          alert("Please enter valid details");
-          return;
-        }
+          // 🔥 Fix: Trim input values to avoid empty spaces
+          let ageValue = ageInput.value.trim();
+          let nameValue = nameInput.value.trim();
 
-        let ageValue = parseInt(age.value); // 🔥 Convert age to number
+          // 🔥 Fix: Ensure both fields are filled
+          if (ageValue === "" || nameValue === "") {
+            alert("Please enter valid details.");
+            return;
+          }
 
-        new Promise((resolve, reject) => {
-          setTimeout(() => {
-            if (ageValue >= 18) {
-              resolve(`Welcome, ${name.value}. You can vote.`);
-            } else {
-              reject(`Oh sorry, ${name.value}. You aren't old enough.`);
-            }
-          }, 4000);
-        })
-          .then((message) => {
-            alert(message);
+          let age = parseInt(ageValue); // 🔥 Convert age to a number
+
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              if (age >= 18) {
+                resolve(`Welcome, ${nameValue}. You can vote.`);
+              } else {
+                reject(`Oh sorry, ${nameValue}. You aren't old enough.`);
+              }
+            }, 4000);
           })
-          .catch((error) => {
-            alert(error);
-          });
+            .then((message) => {
+              alert(message);
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        });
       });
     </script>
   </body>
