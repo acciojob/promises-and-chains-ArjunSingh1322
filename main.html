@@ -5,9 +5,9 @@
   </head>
   <body>
     <form id="myForm">
-      <input type="number" id="age" placeholder="Enter your age" >
-      <input type="text" id="name" placeholder="Enter your name" >
-      <input type="submit" id="btn" value="Submit">
+      <input type="number" id="age" placeholder="Enter your age" required>
+      <input type="text" id="name" placeholder="Enter your name" required>
+      <button type="submit" id="btn">Submit</button> <!-- 🔥 Change input to button -->
     </form>
 
     <script type="text/javascript">
@@ -16,22 +16,24 @@
       let form = document.querySelector("#myForm");
 
       form.addEventListener("submit", (event) => {
-        event.preventDefault(); 
-		  if(age.value == "" || name.value ==""){
-			  alert ("Please enter valid details")
-			  return
-		  }
+        event.preventDefault();
+
+        // 🔥 Fix input validation
+        if (age.value.trim() === "" || name.value.trim() === "") {
+          alert("Please enter valid details");
+          return;
+        }
+
+        let ageValue = parseInt(age.value); // 🔥 Convert age to number
 
         new Promise((resolve, reject) => {
-          if (age.value >= 18) {
-            setTimeout(() => {
-              resolve(`Welcome, ${name.value}. You can vote`);
-            }, 4000);
-          } else {
-            setTimeout(() => {
-              reject(`Oh sorry, ${name.value}. You aren't old enough`);
-            }, 4000);
-          }
+          setTimeout(() => {
+            if (ageValue >= 18) {
+              resolve(`Welcome, ${name.value}. You can vote.`);
+            } else {
+              reject(`Oh sorry, ${name.value}. You aren't old enough.`);
+            }
+          }, 4000);
         })
           .then((message) => {
             alert(message);
